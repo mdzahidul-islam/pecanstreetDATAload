@@ -1,8 +1,8 @@
-% to load pecanstreet data from csv file to matlab
+% Auto load expected data from 'pecanstreet data' as csv file to matlab
 %% data extract 3months
-% this code extract three months data from three different CSV file stored
+% this code extract three months data from three different CSV file stored in
 % the matlab path. The name of the file is 1min_real_june2019, 1min_real_july2019, 1min_real_aug2019 and so on.
-% this code extract three colomn from pecanstreet data, 'dataid', 'localminute', 'grid'.
+% this code extract three colomn among severals from pecanstreet data, 'dataid', 'localminute', 'grid'.
 % I will work on the 'grid' consumption colomn.
 
 mnth_str={'june','july','aug'};
@@ -14,6 +14,8 @@ for i=1:length(mnth_str)
 	opts.SelectedVariableNames={'dataid','localminute','grid'};
 	A = readtable(csv_file,opts);
 	B=A;
+	% first 19 character is taken in the form of MM/dd/uuuu HH:mm:ss and timezone is neglegted.
+	% Timezone can be included later on by datetime(act_data_19.localminute,'TimeZone','UTC');
 	B.localminute=cellfun(@(x) x(1:19),B.localminute,'UniformOutput',false);
 	B.localminute=datetime(B.localminute);
 	m=n+1;
